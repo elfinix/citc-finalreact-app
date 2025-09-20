@@ -16,10 +16,8 @@ import StarIcon from "@mui/icons-material/Star";
 import CardView from "./CardView";
 
 function getCoverUrl(book) {
-    // Try works cover_i or cover_id or covers array
     const coverId = book.cover_i || book.cover_id || (Array.isArray(book.covers) ? book.covers[0] : undefined);
     if (coverId) return `https://covers.openlibrary.org/b/id/${coverId}-L.jpg`;
-    // Fallback placeholder
     return `https://via.placeholder.com/300x450?text=No+Cover`;
 }
 

@@ -18,6 +18,7 @@ export default function CardView({ open, onClose, book, rating: ratingProp }) {
     const [loading, setLoading] = useState(false);
     const [details, setDetails] = useState(null);
     const [expanded, setExpanded] = useState(false);
+    const [error, setError] = useState(null);
     const rating = useMemo(() => ratingProp ?? (Math.random() * 5).toFixed(1), [ratingProp]);
 
     useEffect(() => {
@@ -26,13 +27,13 @@ export default function CardView({ open, onClose, book, rating: ratingProp }) {
         const fetchDetails = async () => {
             try {
                 setLoading(true);
-                const key = book.key; // e.g. "/works/OL123W"
+                const key = book.key;
                 if (!key) return;
                 const url = `https://openlibrary.org${key}.json`;
                 const res = await axios({ url, method: "GET" });
                 if (!cancelled) setDetails(res.data);
             } catch (e) {
-                // ignore for now or could set error state
+                if (!cancelled) setError("Failed to load book details. Please try again.");
             } finally {
                 if (!cancelled) setLoading(false);
             }
@@ -57,7 +58,7 @@ export default function CardView({ open, onClose, book, rating: ratingProp }) {
                     maxHeight: "80vh",
                     display: "flex",
                     flexDirection: "column",
-                    p: 2,
+                    p: 3,
                     bgcolor: "background.paper",
                     position: "relative",
                 }}
@@ -97,7 +98,7 @@ export default function CardView({ open, onClose, book, rating: ratingProp }) {
                                 sx={{ width: 1, height: 1, maxHeight: "500px", borderRadius: 1, objectFit: "contain" }}
                             />
                         </Box>
-                        <Box sx={{ flex: 1, overflowY: "auto", minHeight: 0, pr: 1 }}>
+                        <Box sx={{ flex: 1, minHeight: 0, pr: 1, display: "flex", flexDirection: "column" }}>
                             <Typography variant="h5" sx={{ mb: 1, fontWeight: 600 }}>
                                 {book?.title}
                             </Typography>
@@ -117,22 +118,28 @@ export default function CardView({ open, onClose, book, rating: ratingProp }) {
                                     <Typography component="span">Subjects:</Typography> {subjects.slice(0, 8).join(", ")}
                                 </Typography>
                             ) : null}
-                            <Typography
-                                variant="body2"
+                            <Box
                                 sx={{
                                     mb: 1,
-                                    ...(expanded
-                                        ? {}
-                                        : {
-                                              display: "-webkit-box",
-                                              WebkitLineClamp: 3,
-                                              WebkitBoxOrient: "vertical",
-                                              overflow: "hidden",
-                                          }),
+                                    ...(expanded ? { flex: 1, minHeight: 0, overflowY: "auto", pr: 0.5 } : {}),
                                 }}
                             >
-                                {description}
-                            </Typography>
+                                <Typography
+                                    variant="body2"
+                                    sx={{
+                                        ...(expanded
+                                            ? {}
+                                            : {
+                                                  display: "-webkit-box",
+                                                  WebkitLineClamp: 3,
+                                                  WebkitBoxOrient: "vertical",
+                                                  overflow: "hidden",
+                                              }),
+                                    }}
+                                >
+                                    {description}
+                                </Typography>
+                            </Box>
                             <Button size="small" onClick={() => setExpanded((e) => !e)}>
                                 {expanded ? "Show less" : "Read more"}
                             </Button>

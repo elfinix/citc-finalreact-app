@@ -1,23 +1,28 @@
 import { useMemo, useState } from "react";
+
+// MUI components
 import {
     Avatar,
     Box,
-    Button,
     Chip,
+    CircularProgress,
     Container,
     Divider,
     Fade,
     Grid,
-    IconButton,
+    Link,
     Paper,
     Stack,
-    Typography,
-    CircularProgress,
-    Tabs,
+    Step,
+    StepContent,
+    StepLabel,
+    Stepper,
     Tab,
+    Tabs,
+    Typography,
 } from "@mui/material";
-import { Stepper, Step, StepLabel, StepContent } from "@mui/material";
-import Link from "@mui/material/Link";
+
+// MUI icons
 import PlaceIcon from "@mui/icons-material/Place";
 import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";

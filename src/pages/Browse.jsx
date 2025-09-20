@@ -1,19 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import axios from "axios";
-import {
-    Box,
-    TextField,
-    InputAdornment,
-    IconButton,
-    Grid,
-    Skeleton,
-    Card as MUICard,
-    CardContent as MUICardContent,
-    Typography,
-    Fade,
-    CircularProgress,
-    Container,
-} from "@mui/material";
+import { useState } from "react";
+import { Box, TextField, InputAdornment, IconButton, Typography, Fade, CircularProgress, Container } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import CardList from "../components/CardList";
 
@@ -21,7 +7,6 @@ export default function Browse() {
     const [query, setQuery] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [hasSearched, setHasSearched] = useState(false);
-    const [error, setError] = useState(null);
 
     const runSearch = () => {
         const trimmed = query.trim();
